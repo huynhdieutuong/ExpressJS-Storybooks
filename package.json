@@ -1,0 +1,16 @@
+{
+  "name": "storybooks",
+  "version": "1.0.0",
+  "description": "App to share public or write private stories",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "author": "Huynh Dieu Tuong",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "mongoose": "^5.6.8"
+  }
+}
