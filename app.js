@@ -3,8 +3,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 // Connect MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-  .then(res => console.log('MongoDB Connected!'));
+// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+//   .then(res => console.log('MongoDB Connected!'));
 
 const app = express();
 
