@@ -1,14 +1,19 @@
-// require('dotenv').config();
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
-
-// Connect MongoDB
-// mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
-//   .then(res => console.log('MongoDB Connected!'));
+const exphbs = require('express-handlebars');
 
 const app = express();
 
-app.get('/', (req, res) => res.send('Hello'));
+// Connect MongoDB
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+  .then(res => console.log('MongoDB Connected!'));
+
+// Handlebars
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
+app.get('/', (req, res) => res.render('home', {name: 'Tuong'}));
 
 
 const port = process.env.PORT || 5000;
