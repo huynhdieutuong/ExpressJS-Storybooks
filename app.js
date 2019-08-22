@@ -7,6 +7,10 @@ const passport = require('passport');
 
 const app = express();
 
+// Handlebars
+app.engine('handlebars', exphbs());
+app.set('view engine', 'handlebars');
+
 // Session Middleware
 app.use(session({
   secret: process.env.SESSION_SECRET,
@@ -19,26 +23,22 @@ require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Load Routes
-const authRoute = require('./routes/auth.route');
-
 // Connect MongoDB
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
   .then(res => console.log('MongoDB Connected!'));
 
-// Handlebars
-app.engine('handlebars', exphbs());
-app.set('view engine', 'handlebars');
-
 // Set global variables
 app.use((req, res, next) => {
   res.locals.user = req.user || null;
-  console.log(res.locals.user);  
   next();
 })
 
+// Load Routes
+const indexRoute = require('./routes/index.route');
+const authRoute = require('./routes/auth.route');
+
 // Use Routes
-app.get('/', (req, res) => res.render('home', {name: 'Tuong'}));
+app.use('/', indexRoute);
 app.use('/auth', authRoute);
 
 const port = process.env.PORT || 5000;

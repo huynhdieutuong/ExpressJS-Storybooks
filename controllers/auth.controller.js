@@ -4,7 +4,7 @@ module.exports.google = (req, res) => {
 
 module.exports.verify = (req, res) => {
   if(req.user) {
-    console.log('Logged In');
+    console.log(req.user);
   } else {
     console.log('Not Auth');
   }
