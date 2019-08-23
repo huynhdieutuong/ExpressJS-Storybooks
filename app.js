@@ -36,10 +36,12 @@ app.use((req, res, next) => {
 // Load Routes
 const indexRoute = require('./routes/index.route');
 const authRoute = require('./routes/auth.route');
+const storiesRoute = require('./routes/stories.route');
 
 // Use Routes
 app.use('/', indexRoute);
 app.use('/auth', authRoute);
+app.use('/stories', storiesRoute);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server started on port ${port}`));

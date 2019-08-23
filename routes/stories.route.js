@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 
-const { index, dashboard } = require('../controllers/index.controller');
+const { index, add } = require('../controllers/stories.controller');
 
 router.get('/', index);
 
-router.get('/dashboard', dashboard);
+router.get('/add', add);
 
 module.exports = router;
