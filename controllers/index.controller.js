@@ -5,3 +5,7 @@ module.exports.index = (req, res) => {
 module.exports.dashboard = (req, res) => {
   res.render('index/dashboard');
 };
+
+module.exports.about = (req, res) => {
+  res.render('index/about');
+};

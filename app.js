@@ -33,6 +33,9 @@ app.use((req, res, next) => {
   next();
 })
 
+// Static folder
+app.use(express.static('public'));
+
 // Load Routes
 const indexRoute = require('./routes/index.route');
 const authRoute = require('./routes/auth.route');
