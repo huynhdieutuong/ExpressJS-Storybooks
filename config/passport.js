@@ -7,9 +7,10 @@ passport.use(new GoogleStrategy({
   clientSecret: process.env.GOOGLE_CLIENT_SECRET,
   callbackURL: "/auth/google/callback"
 }, async (accessToken, refreshToken, profile, cb) => {
-  const { id, name, photos } = profile;
+  const { id, name, photos, emails } = profile;
   const newUser = {
     googleID: id,
+    email: emails[0].value,
     firstName: name.givenName,
     lastName: name.familyName,
     image: photos[0].value
