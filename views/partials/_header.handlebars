@@ -3,31 +3,25 @@
     <div class="nav-wrapper">
       <a href="/" class="brand-logo">StoryBooks</a>
       <a href="#" data-target="main-menu" class="sidenav-trigger"><i class="material-icons">menu</i></a>
-      {{!-- Right Nav --}}
       <ul class="right hide-on-med-and-down">
+        <li><a href="/stories"><i class="material-icons left">book</i>Public Stories</a></li>
         {{#if user}}
-          <li><a href="/dashboard">Welcome {{user.firstName}}</a></li>
-          <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
-        {{else}}
-          <li><a href="/stories"><i class="fa fa-book"></i> Public Stories</a></li>
+        <li><a href="/dashboard"><i class="material-icons left">dashboard</i>Dashboard</a></li>
+        <li><a href="/stories/my"><i class="material-icons left">person</i>Welcome {{user.firstName}}</a></li>
+        <li><a href="/auth/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
         {{/if}}
       </ul>
     </div>
   </div>
 </nav>
-{{!-- Side Menu --}}
+
 <ul class="sidenav" id="main-menu">
+  <li><a href="/stories"><i class="material-icons left">book</i>Public Stories</a></li>
   {{#if user}}
+  <li><a href="/dashboard"><i class="material-icons left">dashboard</i>Dashboard</a></li>
+  <li><a href="/stories/my"><i class="material-icons left">person</i>Welcome {{user.firstName}}</a></li>
+  <li><a href="/auth/logout"><i class="material-icons left">exit_to_app</i>Logout</a></li>
   {{else}}
-    <li>
-      <a href="/auth/google" class="btn red darken-1"><i class="fab fa-google left"></i> Login With Google</a>
-    </li>
-  {{/if}}
-  <li><a href="/stories"><i class="fa fa-book"></i> Public Stories</a></li>
-  {{#if user}}
-    <li class="divider"></li>
-    <li><a href="/dashboard"><i class="fa fa-cog"></i> Dashboard</a></li>
-    <li><a href="/stories/my"><i class="fa fa-user"></i> My Stories</a></li>
-    <li><a href="/auth/logout"><i class="fa fa-sign-out"></i> Logout</a></li>
+  <li><a href="/auth/google" class="waves-effect waves-light btn red darnken-1"><i class="material-icons left">input</i>LOGIN WITH GOOGLE</a></li>
   {{/if}}
 </ul>
