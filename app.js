@@ -4,11 +4,18 @@ const mongoose = require('mongoose');
 const exphbs = require('express-handlebars');
 const session = require('express-session');
 const passport = require('passport');
+const bodyParser = require('body-parser');
 
 const app = express();
 
 // Handlebars
-app.engine('handlebars', exphbs());
+const hbs = require('./helpers/hbs');
+app.engine('handlebars', exphbs({
+  helpers: {
+    stripTag: hbs.stripTags,
+    truncate: hbs.truncate
+  }
+}));
 app.set('view engine', 'handlebars');
 
 // Session Middleware
@@ -35,6 +42,10 @@ app.use((req, res, next) => {
 
 // Static folder
 app.use(express.static('public'));
+
+// Body Parser Middleware
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
 // Load Routes
 const indexRoute = require('./routes/index.route');
