@@ -5,15 +5,21 @@ const exphbs = require('express-handlebars');
 const session = require('express-session');
 const passport = require('passport');
 const bodyParser = require('body-parser');
+const methodOverride = require('method-override');
 
 const app = express();
+
+// Method Override Middleware
+app.use(methodOverride('_method'));
 
 // Handlebars
 const hbs = require('./helpers/hbs');
 app.engine('handlebars', exphbs({
   helpers: {
     stripTag: hbs.stripTags,
-    truncate: hbs.truncate
+    truncate: hbs.truncate,
+    formatDate: hbs.formatDate,
+    select: hbs.select
   }
 }));
 app.set('view engine', 'handlebars');
@@ -31,7 +37,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Connect MongoDB
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true })
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useFindAndModify: false })
   .then(res => console.log('MongoDB Connected!'));
 
 // Set global variables

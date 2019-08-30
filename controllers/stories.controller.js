@@ -19,5 +19,34 @@ module.exports.postAdd = async(req, res) => {
     user: req.user.id,
   };
   await Story.create(newStory);
-  res.redirect('/stories');
+  res.redirect('/dashboard');
 };
+
+// Edit Story
+module.exports.edit = async (req, res) => {
+  const story = await Story.findById(req.params.id);
+  res.render('stories/edit', { story });
+};
+module.exports.putEdit = async(req, res) => {
+  const { title, status, allowComments, body } = req.body;
+  const newStory = {
+    title,
+    status,
+    allowComments: allowComments ? true : false,
+    body
+  };
+  await Story.findByIdAndUpdate(req.params.id, newStory);
+  res.redirect('/dashboard');
+};
+
+// Show Story
+module.exports.show = async (req, res) => {
+  const story = await Story.findById(req.params.id).populate('user');
+  res.render('stories/show', { story });
+};
+
+// Delete Story
+module.exports.deleteStory = async (req, res) => {
+  await Story.findByIdAndDelete(req.params.id);
+  res.redirect('/dashboard');
+}

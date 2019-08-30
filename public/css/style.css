@@ -8,6 +8,6 @@ main {
   flex: 1 0 auto;
 }
 
-.card-content {
-  height: 180px;
+.form-inline {
+  display: inline;
 }
