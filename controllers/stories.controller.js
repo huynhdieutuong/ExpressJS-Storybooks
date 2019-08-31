@@ -41,7 +41,9 @@ module.exports.putEdit = async(req, res) => {
 
 // Show Story
 module.exports.show = async (req, res) => {
-  const story = await Story.findById(req.params.id).populate('user');
+  const story = await Story.findById(req.params.id)
+                            .populate('user')
+                            .populate('comments.commentUser');
   res.render('stories/show', { story });
 };
 
@@ -49,4 +51,16 @@ module.exports.show = async (req, res) => {
 module.exports.deleteStory = async (req, res) => {
   await Story.findByIdAndDelete(req.params.id);
   res.redirect('/dashboard');
+};
+
+// Add Comment
+module.exports.comment = async (req, res) => {
+  const newComment = {
+    commentBody: req.body.commentBody,
+    commentUser: req.user.id
+  };
+  const story = await Story.findById(req.params.id);
+  story.comments.unshift(newComment);
+  await story.save();
+  res.redirect(`/stories/show/${req.params.id}`);
 }

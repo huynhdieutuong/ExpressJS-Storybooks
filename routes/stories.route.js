@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const { index, add, postAdd, edit, putEdit, show, deleteStory } = require('../controllers/stories.controller');
+const { index, add, postAdd, edit, putEdit, show, deleteStory, comment } = require('../controllers/stories.controller');
 const { ensureAuthenticated } = require('../helpers/auth');
 
 router.get('/', index);
@@ -15,5 +15,7 @@ router.put('/edit/:id', ensureAuthenticated, putEdit);
 router.get('/show/:id', show);
 
 router.delete('/delete/:id', ensureAuthenticated, deleteStory);
+
+router.post('/comment/:id', ensureAuthenticated, comment);
 
 module.exports = router;

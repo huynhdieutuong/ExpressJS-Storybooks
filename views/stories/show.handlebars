@@ -10,6 +10,38 @@
         <span>{{formatDate story.date 'MMMM Do YYYY'}}</span>
       </div>
     </div>
+    {{#if story.allowComments}}
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Comments</span>
+        {{#if user}}
+        <form action="/stories/comment/{{story.id}}" method="POST">
+          <div class="input-field">
+            <textarea name="commentBody" id="commentBody" class="materialize-textarea"></textarea>
+            <label for="commentBody">Add Comment</label>
+          </div>
+          <input type="submit" class="btn" value="Submit">
+        </form>
+        {{else}}
+        <p>Please <a href="/auth/google">login</a> to leave a comment.</p>
+        {{/if}}
+      </div>
+    </div>
+
+    {{#each story.comments}}
+    <div class="card">
+      <div class="card-content">
+        <h6>{{commentBody}}</h6>
+        <div class="chip">
+          <img src="{{commentUser.image}}">
+          {{commentUser.firstName}} {{commentUser.lastName}}
+        </div>
+        <br>
+        <small>Posted: {{formatDate commentDate 'MMMM Do YYYY'}}</small>
+      </div>
+    </div>
+    {{/each}}
+    {{/if}}
   </div>
   <div class="col s12 m4">
     <div class="card blue-grey darken-1 center-align">
