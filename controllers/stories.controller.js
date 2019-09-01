@@ -24,8 +24,11 @@ module.exports.postAdd = async(req, res) => {
 
 // Edit Story
 module.exports.edit = async (req, res) => {
-  const story = await Story.findById(req.params.id);
-  res.render('stories/edit', { story });
+  const story = await Story.findById(req.params.id).populate('user');
+  if(req.user.id === story.user.id) {
+    return res.render('stories/edit', { story });
+  }
+  res.redirect('/stories');
 };
 module.exports.putEdit = async(req, res) => {
   const { title, status, allowComments, body } = req.body;
@@ -35,8 +38,12 @@ module.exports.putEdit = async(req, res) => {
     allowComments: allowComments ? true : false,
     body
   };
-  await Story.findByIdAndUpdate(req.params.id, newStory);
-  res.redirect('/dashboard');
+  const story = await Story.findById(req.params.id).populate('user');
+  if(req.user.id === story.user.id) {
+    await Story.findByIdAndUpdate(req.params.id, newStory);
+    return res.redirect('/dashboard');
+  }
+  res.redirect('/stories');
 };
 
 // Show Story

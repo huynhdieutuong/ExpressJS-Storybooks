@@ -17,5 +17,14 @@ module.exports = {
   },
   select: (selected, options) => {
     return options.fn(this).replace(new RegExp('value="' + selected + '"'), 'value="' + selected + '" selected');
+  },
+  editIcon: (storyUser, loggedUser, storyId, floating = true) => {
+    if(storyUser === loggedUser) {
+      if(floating) {
+        return `<a href="/stories/edit/${storyId}" class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">edit</i></a>`;
+      };
+      return `<a href="/stories/edit/${storyId}"><i class="material-icons">edit</i></a>`;
+    };
+    return '';
   }
 };

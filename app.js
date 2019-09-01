@@ -19,7 +19,8 @@ app.engine('handlebars', exphbs({
     stripTag: hbs.stripTags,
     truncate: hbs.truncate,
     formatDate: hbs.formatDate,
-    select: hbs.select
+    select: hbs.select,
+    editIcon: hbs.editIcon
   }
 }));
 app.set('view engine', 'handlebars');

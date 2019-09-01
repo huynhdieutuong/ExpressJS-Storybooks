@@ -5,7 +5,7 @@ module.exports.index = (req, res) => {
 };
 
 module.exports.dashboard = async (req, res) => {
-  const stories = await Story.find();
+  const stories = await Story.find({ user: req.user.id });
   res.render('index/dashboard', { stories });
 };
 
