@@ -51,13 +51,24 @@ module.exports.show = async (req, res) => {
   const story = await Story.findById(req.params.id)
                             .populate('user')
                             .populate('comments.commentUser');
-  res.render('stories/show', { story });
+  if(story.status === 'public') {
+    return res.render('stories/show', { story });
+  };
+  if(req.user) {
+    if(req.user.id === story.user.id) {
+      return res.render('stories/show', { story });
+    }
+  }
+  res.redirect('/stories');
 };
 
 // Delete Story
 module.exports.deleteStory = async (req, res) => {
-  await Story.findByIdAndDelete(req.params.id);
-  res.redirect('/dashboard');
+  const story = await Story.findById(req.params.id).populate('user');
+  if(req.user.id === story.user.id) {
+    await Story.findByIdAndDelete(req.params.id);
+    res.redirect('/dashboard');
+  };
 };
 
 // Add Comment
