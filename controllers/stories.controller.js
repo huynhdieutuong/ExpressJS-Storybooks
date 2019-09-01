@@ -70,4 +70,16 @@ module.exports.comment = async (req, res) => {
   story.comments.unshift(newComment);
   await story.save();
   res.redirect(`/stories/show/${req.params.id}`);
-}
+};
+
+// Show stories by user
+module.exports.user = async (req, res) => {
+  const stories = await Story.find({ user: req.params.userId, status: 'public' }).populate('user');
+  res.render('stories/index', { stories });
+};
+
+// Show logged in user stories
+module.exports.my = async (req, res) => {
+  const stories = await Story.find({ user: req.user.id }).populate('user');
+  res.render('stories/index', { stories });
+};
