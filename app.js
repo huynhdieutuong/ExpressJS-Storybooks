@@ -20,7 +20,8 @@ app.engine('handlebars', exphbs({
     truncate: hbs.truncate,
     formatDate: hbs.formatDate,
     select: hbs.select,
-    editIcon: hbs.editIcon
+    editIcon: hbs.editIcon,
+    compare: hbs.compare
   }
 }));
 app.set('view engine', 'handlebars');

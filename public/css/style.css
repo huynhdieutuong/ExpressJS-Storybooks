@@ -11,3 +11,12 @@ main {
 .form-inline {
   display: inline;
 }
+
+.clear-background {
+  background: none;
+  border: none;
+}
+
+.height-180 {
+  height: 180px;
+}

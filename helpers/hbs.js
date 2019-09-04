@@ -16,7 +16,7 @@ module.exports = {
     return moment(date).format(format);
   },
   select: (selected, options) => {
-    return options.fn(this).replace(new RegExp('value="' + selected + '"'), 'value="' + selected + '" selected');
+    return options.fn(this).replace(`value="${selected}"`, `value="${selected}" selected`);
   },
   editIcon: (storyUser, loggedUser, storyId, floating = true) => {
     if(storyUser === loggedUser) {
@@ -26,5 +26,12 @@ module.exports = {
       return `<a href="/stories/edit/${storyId}"><i class="material-icons">edit</i></a>`;
     };
     return '';
+  },
+  compare: (num1, num2, options) => {
+    if(num1 === num2) {
+      return options.fn(this);
+    } else {
+      return options.inverse(this);
+    }
   }
 };

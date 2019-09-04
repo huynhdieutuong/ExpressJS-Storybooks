@@ -2,7 +2,42 @@ const Story = require('../models/Story');
 
 module.exports.index = async (req, res) => {
   const stories = await Story.find({ status: 'public' }).populate('user');
-  res.render('stories/index', { stories });
+
+  // Pagination
+  let page = parseInt(req.query.page) || 1;
+  const perPage = 6;
+  const maxPage = ((stories.length / perPage) > 3) ? Math.ceil(stories.length / perPage) : 3;
+
+  if(page < 1) {
+    page = 1;
+  }
+  if(page > maxPage) {
+    page = maxPage;
+  }
+
+  let arrPage = [page - 1, page, page + 1];
+  if(page === 1) {
+    arrPage = [1, 2, 3];
+  }
+  if(page === maxPage) {
+    arrPage = [page - 2, page - 1, page];
+  }
+
+  const nextPage = (page === maxPage) ? page : page + 1;
+  const prevPage = (page === 1) ? 1 : page - 1;
+
+  const start = (page - 1) * perPage;
+  const end = page * perPage;
+
+  res.render('stories/index', { 
+    stories: stories.slice(start, end),
+    pagination: true,
+    page,
+    maxPage,
+    arrPage,
+    prevPage,
+    nextPage 
+  });
 };
 
 // Add Story
@@ -86,11 +121,33 @@ module.exports.comment = async (req, res) => {
 // Show stories by user
 module.exports.user = async (req, res) => {
   const stories = await Story.find({ user: req.params.userId, status: 'public' }).populate('user');
-  res.render('stories/index', { stories });
+  res.render('stories/index', { stories, pagination: false });
 };
 
 // Show logged in user stories
 module.exports.my = async (req, res) => {
   const stories = await Story.find({ user: req.user.id }).populate('user');
-  res.render('stories/index', { stories });
+  res.render('stories/index', { stories, pagination: false });
+};
+
+// Search Stories
+module.exports.search = async (req, res) => {
+  const stories = await Story.find({ status: 'public' }).populate('user');
+  const filtered = stories.filter(story => story.title.toLowerCase().indexOf(req.query.q.toLowerCase()) !== -1);
+  res.render('stories/index', { stories: filtered, pagination: false });
+};
+
+// Duplicate Story
+module.exports.duplicate = async (req, res) => {
+  const { title, status, allowComments, body, user } = await Story.findById(req.params.id).populate('user');
+  if(user.id === req.user.id) {
+    await Story.create({
+      title,
+      status,
+      allowComments,
+      body,
+      user
+    });
+    res.redirect('/dashboard');
+  };
 };

@@ -1,12 +1,29 @@
 <h1>Stories</h1>
 <div class="row">
+  <form action="/stories/search" method="get" class="left">
+    <div class="input-field inline">
+      <input type="text" name="q" placeholder="Search" value="{{value}}">
+    </div>
+    <button type="submit" class="clear-background"><i class="material-icons">search</i></button>
+  </form>
+  {{#if pagination}}
+  <ul class="pagination right">
+    <li class="{{#compare page 1}}disabled{{else}}waves-effect{{/compare}}"><a href="/stories?page={{prevPage}}"><i class="material-icons">chevron_left</i></a></li>
+    {{#each arrPage}}
+    <li class="waves-effect"><a href="/stories?page={{.}}">{{.}}</a></li>
+    {{/each}}
+    <li class="{{#compare page maxPage}}disabled{{else}}waves-effect{{/compare}}"><a href="/stories?page={{nextPage}}"><i class="material-icons">chevron_right</i></a></li>
+  </ul>
+  {{/if}}
+</div>
+<div class="row">
   {{#each stories}}
   <div class="col s12 m4">
     <div class="card">
       <div class="card-image">
         {{{editIcon user.id ../user.id id}}}
       </div>
-      <div class="card-content">
+      <div class="card-content height-180">
         <a href="/stories/show/{{id}}" class="black-text">
           <span class="card-title">{{title}}</span>
           <p>{{truncate (stripTag body) 150}}</p>
